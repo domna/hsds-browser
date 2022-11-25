@@ -1,24 +1,23 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import HsdsApp from "./components/HsdsApp";
+import Item from "./components/browser/Item";
+import "./App.css";
 
 function App() {
+  const [selectedFile, setSelectedFile] = useState<string>("");
+
+  function onFileSelect(path: string) {
+    setSelectedFile(path);
+  }
+  // return (
+  //   <div style={{ height: "100vh" }}>
+  //     <HsdsApp filepath="/home/test_user1/NCE1334" />
+  //   </div>
+  // );
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={{ height: "100vh" }}>
+      <Item path="/" onFileSelect={onFileSelect} />
+      {selectedFile !== "" && <HsdsApp filepath={selectedFile} />}
     </div>
   );
 }
