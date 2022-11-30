@@ -2,22 +2,37 @@ import React, { useState } from "react";
 import HsdsApp from "./components/HsdsApp";
 import Item from "./components/browser/Item";
 import "./App.css";
+import Thumbnail from "./components/Thumbnail";
+
+export interface Display {
+  filepath: string;
+  thumbnail_link?: string;
+  display_h5web: boolean;
+}
 
 function App() {
-  const [selectedFile, setSelectedFile] = useState<string>("");
+  const [selected, setSelected] = useState<Display>({
+    filepath: "",
+    thumbnail_link: undefined,
+    display_h5web: false,
+  });
 
-  function onFileSelect(path: string) {
-    setSelectedFile(path);
+  function onFileSelect(selected: Display) {
+    setSelected(selected);
   }
-  // return (
-  //   <div style={{ height: "100vh" }}>
-  //     <HsdsApp filepath="/home/test_user1/NCE1334" />
-  //   </div>
-  // );
+
   return (
-    <div style={{ height: "100vh" }}>
+    <div className="app">
       <Item path="/" onFileSelect={onFileSelect} />
-      {selectedFile !== "" && <HsdsApp filepath={selectedFile} />}
+      <div className="display">
+        {!selected.display_h5web && selected.thumbnail_link !== undefined && (
+          <Thumbnail
+            thumbnail_link={selected.thumbnail_link}
+            domain={selected.filepath}
+          />
+        )}
+        {selected.display_h5web && <HsdsApp filepath={selected.filepath} />}
+      </div>
     </div>
   );
 }
