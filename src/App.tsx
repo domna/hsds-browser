@@ -21,6 +21,14 @@ function App() {
     setSelected(selected);
   }
 
+  function show_h5web() {
+    setSelected({
+      filepath: selected.filepath,
+      thumbnail_link: selected.thumbnail_link,
+      display_h5web: true,
+    });
+  }
+
   return (
     <div className="app">
       <Item path="/" onFileSelect={onFileSelect} />
@@ -30,6 +38,9 @@ function App() {
             thumbnail_link={selected.thumbnail_link}
             domain={selected.filepath}
           />
+        )}
+        {!selected.display_h5web && (
+          <button onClick={() => show_h5web()}>Show h5web</button>
         )}
         {selected.display_h5web && <HsdsApp filepath={selected.filepath} />}
       </div>

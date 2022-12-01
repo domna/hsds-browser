@@ -26,18 +26,7 @@ export interface HsdsLink {
   href: string;
 }
 
-export interface HsdsValue {
-  status: number;
-  value: Array<number>;
-  hrefs: Array<HsdsHref>;
-}
-
 export interface HsdsLinkResponse {
   links: Array<HsdsLink>;
   hrefs: Array<HsdsHref>;
-}
-
-export interface HsdsValue {
-  status: number;
-  value: Array<number>;
 }

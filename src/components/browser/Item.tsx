@@ -3,7 +3,6 @@ import { Display } from "../../App";
 import {
   HsdsDomain,
   HsdsResponse,
-  HsdsValue,
   HsdsLinkResponse,
 } from "../../providers/models";
 
@@ -14,8 +13,8 @@ const PASSWORD = process.env.REACT_APP_HSDS_PASSWORD;
 async function queryHsds(
   path: string,
   domain: string
-): Promise<HsdsResponse | HsdsValue | HsdsLinkResponse> {
-  const authStr = btoa(`${USERNAME}:${PASSWORD}`);
+): Promise<HsdsResponse | HsdsLinkResponse> {
+  const authStr = window.btoa(`${USERNAME}:${PASSWORD}`);
   const response = await fetch(path, {
     method: "GET",
     headers: { Authorization: `Basic ${authStr}`, "X-Hdf-Domain": domain },

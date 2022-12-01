@@ -1,31 +1,33 @@
-import React, { useEffect, useState } from "react";
-import { HsdsValue } from "../providers/models";
+import React, { useState } from "react";
 
-const URL = process.env.REACT_APP_HSDS_URL;
 const USERNAME = process.env.REACT_APP_HSDS_USERNAME;
 const PASSWORD = process.env.REACT_APP_HSDS_PASSWORD;
 
 async function getThumbnail(
   thumbnail_link: string,
   domain: string
-): Promise<Array<number>> {
-  const authStr = btoa(`${USERNAME}:${PASSWORD}`);
+): Promise<string> {
+  const authStr = window.btoa(`${USERNAME}:${PASSWORD}`);
   const response = (
     await fetch(`${thumbnail_link}/value`, {
       method: "GET",
-      headers: { Authorization: `Basic ${authStr}`, "X-Hdf-Domain": domain },
+      headers: {
+        Authorization: `Basic ${authStr}`,
+        "X-Hdf-Domain": domain,
+        Accept: "application/octet-stream",
+      },
     })
-  ).json() as Promise<HsdsValue>;
+  ).arrayBuffer();
 
-  const resp = response.then((response) => {
-    if (response.status === 200) {
-      console.log(response.value);
-      return response.value;
+  return response.then((response) => {
+    let bytes = new Uint8Array(response);
+
+    let binary = "";
+    for (let i = 0; i < bytes.byteLength; i++) {
+      binary += String.fromCharCode(bytes[i]);
     }
-    return [];
+    return window.btoa(binary);
   });
-
-  return resp;
 }
 
 function Thumbnail({
@@ -35,7 +37,19 @@ function Thumbnail({
   thumbnail_link: string;
   domain: string;
 }) {
-  return <img src={`img/jpg;base64,${getThumbnail(thumbnail_link, domain)}`} />;
+  const [img, setImage] = useState<string>("");
+  const [hidden, setHidden] = useState<boolean>(true);
+  getThumbnail(thumbnail_link, domain).then((image) => {
+    setImage(image);
+    setHidden(false);
+  });
+  return (
+    <img
+      style={hidden ? { display: "none" } : {}}
+      width="300"
+      src={`data:img/jpg;base64, ${img}`}
+    />
+  );
 }
 
 export default Thumbnail;
