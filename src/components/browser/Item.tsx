@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { Display } from "../../App";
 import {
   HsdsDomain,
@@ -47,12 +47,8 @@ async function getThumbnail(filepath: string): Promise<string | undefined> {
   return thumbnail.target;
 }
 
-function ItemList(domain: HsdsDomain, onFileSelect: (select: Display) => void) {
-  return (
-    <ul>
-      <Item path={domain.name} onFileSelect={onFileSelect} />
-    </ul>
-  );
+function ItemList(path: string, onFileSelect: (select: Display) => void) {
+  return <Item path={path} onFileSelect={onFileSelect} />;
 }
 
 function Item({
@@ -63,33 +59,33 @@ function Item({
   onFileSelect: (select: Display) => void;
 }) {
   const [domains, setDomains] = useState<HsdsDomain[]>([]);
-  const [expandedDomains, setExpandedDomains] = useState<string[]>([]);
+  const [expanded, setExpanded] = useState<string | undefined>(undefined);
+  const [selected, setSelected] = useState<string | undefined>(undefined);
 
   function expand(domain: HsdsDomain) {
+    setSelected(domain.name);
     if (domain.class === "folder") {
       onFileSelect({
         filepath: "",
         display_h5web: false,
         thumbnail_link: undefined,
+        is_folder: true,
       });
-      if (expandedDomains.indexOf(domain.name) > -1) {
-        setExpandedDomains(
-          expandedDomains.filter((dname) => dname !== domain.name)
-        );
+      if (domain.name === expanded) {
+        setExpanded(undefined);
       } else {
-        setExpandedDomains((expandedDomains) => [
-          ...expandedDomains,
-          domain.name,
-        ]);
+        setExpanded(domain.name);
       }
     }
 
     if (domain.class === "domain") {
+      setExpanded(undefined);
       getThumbnail(domain.name).then((thumbnail) =>
         onFileSelect({
           filepath: domain.name,
           display_h5web: false,
           thumbnail_link: thumbnail,
+          is_folder: false,
         })
       );
     }
@@ -99,19 +95,25 @@ function Item({
     getDomains(path).then((data) => setDomains(data["domains"]));
   }, [path]);
   return (
-    <ul className="hsds-browser">
-      {domains.map((domain) => (
-        <li key={domain.name}>
-          <button onClick={() => expand(domain)}>
-            {domain.name.split("/").slice(-1)}
-          </button>
-          {domain.class === "folder" &&
-          expandedDomains.indexOf(domain.name) > -1
-            ? ItemList(domain, onFileSelect)
-            : ""}
-        </li>
-      ))}
-    </ul>
+    <Fragment>
+      <div className="browser-level">
+        {domains.map((domain) => (
+          <Fragment>
+            <ul className="hsds-element">
+              <li key={domain.name}>
+                <button
+                  onClick={() => expand(domain)}
+                  className={domain.name === selected ? "selected" : ""}
+                >
+                  {domain.name.split("/").slice(-1)}
+                </button>
+              </li>
+            </ul>
+          </Fragment>
+        ))}
+      </div>
+      {expanded !== undefined ? ItemList(expanded, onFileSelect) : ""}
+    </Fragment>
   );
 }
 

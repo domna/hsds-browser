@@ -8,6 +8,7 @@ export interface Display {
   filepath: string;
   thumbnail_link?: string;
   display_h5web: boolean;
+  is_folder: boolean;
 }
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
     filepath: "",
     thumbnail_link: undefined,
     display_h5web: false,
+    is_folder: true,
   });
 
   function onFileSelect(selected: Display) {
@@ -26,12 +28,15 @@ function App() {
       filepath: selected.filepath,
       thumbnail_link: selected.thumbnail_link,
       display_h5web: true,
+      is_folder: selected.is_folder,
     });
   }
 
   return (
     <div className="app">
-      <Item path="/" onFileSelect={onFileSelect} />
+      <div className="hsds-browser">
+        <Item path="/" onFileSelect={onFileSelect} />
+      </div>
       <div className="display">
         {!selected.display_h5web && selected.thumbnail_link !== undefined && (
           <Thumbnail
@@ -39,7 +44,7 @@ function App() {
             domain={selected.filepath}
           />
         )}
-        {!selected.display_h5web && (
+        {!selected.is_folder && !selected.display_h5web && (
           <button onClick={() => show_h5web()}>Show h5web</button>
         )}
         {selected.display_h5web && <HsdsApp filepath={selected.filepath} />}
