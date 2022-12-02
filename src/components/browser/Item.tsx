@@ -100,13 +100,12 @@ function Item({
         {domains.map((domain) => (
           <Fragment>
             <ul className="hsds-element">
-              <li key={domain.name}>
-                <button
-                  onClick={() => expand(domain)}
-                  className={domain.name === selected ? "selected" : ""}
-                >
-                  {domain.name.split("/").slice(-1)}
-                </button>
+              <li
+                key={domain.name}
+                className={domain.name === selected ? "selected" : ""}
+                onClick={() => expand(domain)}
+              >
+                {domain.name.split("/").slice(-1)}
               </li>
             </ul>
           </Fragment>

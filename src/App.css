@@ -1,35 +1,48 @@
-.hsds-browser ul {
+.browser-level ul {
   list-style-type: none;
-  margin: 5px;
+  margin: 0;
   padding: 0;
 }
 
-.hsds-browser button {
+.browser-level li {
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 14pt;
+  font-weight: bold;
+  width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.browser-level li.selected {
+  background: rgb(111, 249, 196);
+}
+
+.browser-level button {
   background: none;
   border: none;
   cursor: pointer;
 }
 
-.hsds-browser button.selected {
-  background: #bbb
-}
-
 .hsds-browser {
-  height: 20vh;
-  max-height: 20vh;
+  height: 40vh;
   overflow-y: hidden;
   overflow-x: scroll;
+  border-bottom: solid 1px #444
 } 
 
+.hsds-element {
+  margin: 0;
+  padding: 0;
+}
+
 .browser-level {
-  height: 20vh;
-  width: 100px;
-  overflow-x: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis; 
+  height: 40vh;
+  width: 200px;
   overflow-y: scroll;
-  display: inline-block;
-  border-right: solid 1px #000
+  overflow-x: hidden;
+  border-right: solid 1px #444;
+  float: left;
 }
 
 .app {
@@ -37,5 +50,12 @@
 }
 
 .display {
-  height: 80vh;
+  height: 60vh;
+  text-align: center;
+}
+
+.display img {
+  height: 100%;
+  padding: 0;
+  margin: 0;
 }

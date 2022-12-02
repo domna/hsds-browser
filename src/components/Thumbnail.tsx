@@ -46,7 +46,6 @@ function Thumbnail({
   return (
     <img
       style={hidden ? { display: "none" } : {}}
-      width="300"
       src={`data:img/jpg;base64, ${img}`}
     />
   );

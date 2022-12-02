@@ -23,11 +23,11 @@ function App() {
     setSelected(selected);
   }
 
-  function show_h5web() {
+  function show_h5web(set: boolean) {
     setSelected({
       filepath: selected.filepath,
       thumbnail_link: selected.thumbnail_link,
-      display_h5web: true,
+      display_h5web: set,
       is_folder: selected.is_folder,
     });
   }
@@ -36,16 +36,24 @@ function App() {
     <div className="app">
       <div className="hsds-browser">
         <Item path="/" onFileSelect={onFileSelect} />
+        {!selected.is_folder && (
+          <div className="browser-level">
+            {!selected.display_h5web && (
+              <button onClick={() => show_h5web(true)}>Show h5web</button>
+            )}
+            {selected.display_h5web && (
+              <button onClick={() => show_h5web(false)}>Hide h5web</button>
+            )}
+          </div>
+        )}
       </div>
       <div className="display">
+        {!selected.display_h5web && selected.filepath}
         {!selected.display_h5web && selected.thumbnail_link !== undefined && (
           <Thumbnail
             thumbnail_link={selected.thumbnail_link}
             domain={selected.filepath}
           />
-        )}
-        {!selected.is_folder && !selected.display_h5web && (
-          <button onClick={() => show_h5web()}>Show h5web</button>
         )}
         {selected.display_h5web && <HsdsApp filepath={selected.filepath} />}
       </div>
