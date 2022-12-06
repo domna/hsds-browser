@@ -98,10 +98,9 @@ function Item({
     <Fragment>
       <div className="browser-level">
         {domains.map((domain) => (
-          <Fragment>
+          <Fragment key={domain.name}>
             <ul className="hsds-element">
               <li
-                key={domain.name}
                 className={domain.name === selected ? "selected" : ""}
                 onClick={() => expand(domain)}
               >

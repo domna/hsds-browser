@@ -18,12 +18,6 @@
   background: rgb(111, 249, 196);
 }
 
-.browser-level button {
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
 .hsds-browser {
   height: 40vh;
   overflow-y: hidden;
@@ -45,6 +39,22 @@
   float: left;
 }
 
+.browser-level-button {
+  text-align: center;
+  padding-top: 50px;
+}
+
+.filepath {
+  text-align: center;
+  width: 90%;
+  word-wrap: break-word;
+}
+
+.filepath .copy {
+  cursor: pointer;
+}
+
+
 .app {
   height: 100vh;
 }
@@ -54,8 +64,21 @@
   text-align: center;
 }
 
+.image {
+  height: 100%;
+  float: left;
+}
+
+.path {
+  float: left;
+}
+
 .display img {
   height: 100%;
   padding: 0;
   margin: 0;
+}
+
+.display_card {
+  height: 60vh;
 }

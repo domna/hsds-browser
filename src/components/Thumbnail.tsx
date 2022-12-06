@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import CardMedia from "@mui/material/CardMedia";
 
 const USERNAME = process.env.REACT_APP_HSDS_USERNAME;
 const PASSWORD = process.env.REACT_APP_HSDS_PASSWORD;
@@ -44,9 +45,13 @@ function Thumbnail({
     setHidden(false);
   });
   return (
-    <img
+    <CardMedia
       style={hidden ? { display: "none" } : {}}
-      src={`data:img/jpg;base64, ${img}`}
+      component="img"
+      height="140"
+      image={`data:img/jpg;base64, ${img}`}
+      alt="green iguana"
+      sx={{ objectFit: "contain" }}
     />
   );
 }
